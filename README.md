@@ -21,12 +21,21 @@ Here, I used the csv reader code to extract the two rows which I needed and writ
 ```python
 for row in reader:
     iwant = []
+    
     date = str(row[3])
+   
+    if date[3] == '0':
+        date = date[0:3] + date[4:]
+    if date[0] == '0':
+        date = date[1:]
+       
     crime = str(row[13])
     
     iwant = [date, crime]
     
     writer.writerow(iwant)
+    
+    n+=1
 ```
 
 
@@ -41,13 +50,14 @@ for row in reader:
     if n > 0:
         dic = {}
         dat = row[0].split(" ")[0]
+        if dat[3] == '0':
+            dat = dat[0:3] + dat[4:]
         if str(dat[0]) == '0':
             covdate = dat[1:]
         
             dic[covdate] = str(row[1])
             covid_list_dic.append(dic)
     n += 1
-print(covid_list_dic)
 ```
 
 Then, I opened a Crime_NYC.csv which I had just created and interated through each row. Here, I look for instances were the date in the Crime_NYC file matched a key in one of the dictionaries above. If so, then I would write the date, the crime, and the dictionary value as row in the new file, covid_crime.csv. 
@@ -56,17 +66,11 @@ Then, I opened a Crime_NYC.csv which I had just created and interated through ea
 for row in csv_reader1:
     if n > 0:
         for dicti in covid_list_dic:
-            try:
-                date = row[0]
-                if str(date[0]) == '0':
-                    date = date[1:]
-                    if str(date) in dicti.keys():
-                        date = str(date)
-                        row.append(dicti[date])
-                        
-                        csv_writer.writerow(row) 
-            except Exception as e:
-                a = str(e)
+            date = row[0]
+            if date in dicti.keys():
+                date = str(date)
+                row.append(dicti[date])
+                csv_writer.writerow(row) 
     n += 1
 ```
 
@@ -110,11 +114,10 @@ This csv file includes the 2019 crimes and dates. I iterated through the NYPD_Co
 Here I append all the COVID dates to a list by iterating through the final_covid_crime.csv file. Then, I iterate through the Crime_NYC_2019.csv file, writing the date and the crime to a new file if the date in 2019 corresponds to the 2020 date. 
 
 ```python
-
 for row in reader:
     if n > 0:
-        
-        date = row[0][0:6]+'2020'
+        splitt = row[0].split("/")
+        date = splitt[0] + "/" + splitt[1] + "/" +'2020'
       
         if date in covid_dates:
             date = row[0]
@@ -122,7 +125,7 @@ for row in reader:
            
             iwant = [date, crime]
             writer.writerow(iwant) 
-    n+=1   
+    n+=1 
 ```
 
 Lastly, to get each crime category in its own column, I had to use pandas once again. 
@@ -153,7 +156,7 @@ For example, in the file, I calculated the average crimes performed during the C
 PCT CHG | -13.99 | -21.95 | -13.24
 
 
-Additionally, when we look at the COVID/Crime 2020 graph we notice large dips. Curious about these, I sum the cases for each of the days of the week and found that there are significantly less positive COVID tests during the weekend either because testing facilities were not open then or people do not want to get tested on the weekend. 
+Additionally, when we look at the COVID/Crime 2020 graph we notice large dips. Curious about these, I summed the cases for each of the days of the week. I found that there are significantly less positive COVID tests during the weekend. This is either because testing facilities were not open then or people do not want to get tested on the weekend. 
 
  Day | Total Cases 
 --------- | ------------
