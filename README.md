@@ -136,7 +136,7 @@ Lastly, to get each crime category in its own column, I had to use pandas once a
 
 If we compare these two visualizations side-by-side:
 
-![Crime Comparison](images/Crime-Comparison.PNG
+![Crime Comparison](images/Crime-Comparison.PNG)
 
 There is a noticeable difference in the crime rates for these two years. Even after the initial surge of COVID, the misdemeanors remain low when compared to 2019 crime rates. 
 
