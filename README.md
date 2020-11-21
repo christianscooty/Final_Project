@@ -6,7 +6,7 @@ To complete this project, I needed three different data sources, each from the N
 
 Instead of making many requests to the NYPD API as I tried to figure out the coding for getting the data I needed, I decided to download the three files which I needed from the NYC site as CSV files. This would allow me to work with them as much as I needed.
 
-##Stage 1
+## Stage 1
 
 My first goal was to create a csv file which held the crime information for NYC together with the date and the case count. Optimally, this crime information would have been sorted by crime categories: Felony, Misdemeanor, and Violation. Below, I have included a workflow diagram of how I completed this task. 
 
@@ -83,8 +83,7 @@ Below is an example of the first couple rows of the pandas_covid.csv file:
 
 Here is a sample of the final_covid_crime.csv:
 
-Date | Felony | Misdemeanor | Violation | Cases
-
+ Date | Felony | Misdemeanor | Violation | Cases
 --------- | ------------ | ------------- | ------------- | -------------
 2/29/2020 | 374 | 564 | 161 | 1
 3/3/2020 | 384 | 699 | 206 | 1
@@ -106,7 +105,7 @@ My second goal was to be able to visualize the differences in crime between this
 
 This csv file includes the 2019 crimes and dates. I iterated through the NYPD_Complaint_Data_Historic file and chose only 2019 dates, because the historic complaint file was so large, it would take considerably longer to use this file if I made mistakes in my code. So, I create a new csv file, Crime_NYC_2019 with only the 2019 dates because it would be more manageable.
 
-###Crime NYC 2019 Covid Date file and the Pandas covid 2019 file
+### Crime NYC 2019 Covid Date file and the Pandas covid 2019 file
 
 Here I append all the COVID dates to a list by iterating through the final_covid_crime.csv file. Then, I iterate through the Crime_NYC_2019.csv file, writing the date and the crime to a new file if the date in 2019 corresponds to the 2020 date. 
 
