@@ -83,7 +83,7 @@ Below is an example of the first couple rows of the pandas_covid.csv file:
 
 Here is a sample of the final_covid_crime.csv:
 
- Date | Felony | Misdemeanor | Violation | Cases
+ Date | FELONY | MISDEMEANOR | VIOLATION | Cases
 --------- | ------------ | ------------- | ------------- | -------------
 2/29/2020 | 374 | 564 | 161 | 1
 3/3/2020 | 384 | 699 | 206 | 1
@@ -140,3 +140,27 @@ If we compare these two visualizations side-by-side:
 
 There is a noticeable difference in the crime rates for these two years. Even after the initial surge of COVID, the misdemeanors remain low when compared to 2019 crime rates. 
 
+### Analysis
+
+Besides the files visualized in the workflow. I create an additional file name avg-crimes.py to perform some analysis on the data. 
+
+For example, in the file, I calculated the average crimes performed during the COVID period in 2020 and the corresponding dates in 2019. We see that in 2020 there is a significant difference in crime rates with the average misdemeanors going down by almost 22%.
+
+ Year | Average Felony | Average Misdemeanor | Average Violation 
+--------- | ------------ | ------------- | ------------- 
+2019 | 393 | 688 | 204 
+2020 | 338 | 537 | 177 
+PCT CHG | -13.99 | -21.95 | -13.24
+
+
+Additionally, when we look at the COVID/Crime 2020 graph we notice large dips. Curious about these, I sum the cases for each of the days of the week and found that there are significantly less positive COVID tests during the weekend either because testing facilities were not open then or people do not want to get tested on the weekend. 
+
+ Day | Total Cases 
+--------- | ------------
+Saturday | 24300 
+Sunday | 22711
+Monday | 38955
+Tuesday | 40217
+Wednesday | 40085
+Thursday | 38251
+Friday | 36954  
