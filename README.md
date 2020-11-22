@@ -4,7 +4,7 @@
 
 To complete this project, I needed three different data sources, each from the NYC Open Data site. I needed the COVID-19 cases data, the 2020 Crime data, and the Historic Crime data. In total, I used six separate Python files and ten different csv files. I will discuss the progression in this document. 
 
-Instead of making many requests to the NYPD API as I tried to figure out the coding for getting the data I needed, I decided to download the three files which I needed from the NYC site as CSV files. This would allow me to work with them as much as I needed. Additionally, it should be noted that the most current NYPD Crime data only covers until September 30 and the earliest COVID data in the NYC website is on February 29, so these two dates will serve as my boundaries for this project. 
+Instead of making many requests to the NYC API as I tried to figure out the coding for getting the data I needed, I decided to download the three files which I needed from the NYC site as CSV files. This would allow me to work with them as much as I needed. Additionally, it should be noted that the most current NYPD Crime data only covers until September 30 and the earliest COVID data in the NYC website is on February 29, so these two dates will serve as my boundaries for this project. 
 
 ## Stage 1
 
@@ -91,7 +91,6 @@ reshape = pd.pivot_table(coviddata, index = ['Date'], columns = 'Crimes',values 
 reshape.to_csv('pandas_covid.csv')
 ```
 
-
  Date | FELONY | MISDEMEANOR | VIOLATION 
 --------- | ------------ | ------------- | ------------- 
 2/29/2020 | 374 | 564 | 161
@@ -147,7 +146,7 @@ for row in reader:
 ```
 
 
-Then, I iterate through the Crime_NYC_2019.csv file, writing the date and the crime to a new file, Crime_NYC_2019_Covid_date.csv, which has the dates in 2019 which correspond to the 2020 dates. 
+Then, I iterate through the Crime_NYC_2019.csv file, writing the date and the crime to a new file, Crime_NYC_2019_Covid_date.csv, which has the dates in 2019 which correspond to the 2020 dates. The way I made sure the 2019 dates corresponded to the 2020 dates was by takin all the 2019 dates in the file and replacing the year 2019 with the year 2020, then matching these with the COVID dates. Since I changed the date format from '03/06/2019' to '3/10/2019', the length of the date fields became inconsistent. So, I could not change the date just by slicing the date. Instead, I chose to split the date on "/" and put the date back together, adding the 2020 value at the end. 
 
 ```python
 for row in reader:
@@ -241,7 +240,7 @@ My biggest two issues were:
 * Trying to find a way to add columns to a csv _without_ making a new csv file everytime
 * Making sure the dates were in a consistent format across all the tiles. 
 
-Unfortunately, I was unsuccessful in finding a solution to the first issue, hence the myriad of csv files included in my project. Near the end, I ended up having to create a workflow (which is displayed above) which allowed me to understand my own process and how these different files connected
+Unfortunately, I was unsuccessful in finding a solution to the first issue, hence the myriad of csv files included in my project. Near the end, I ended up having to create a workflow (which is displayed above) which allowed me to understand my own process and how these different files were connected.
 
 The second issue I was able to conquer. This issue grew larger than necessary mostly because I was unaware of it until most of the way through my project when only some dates were being written to my files and others were excluded. I had to dig back one by one through my files until I understood where the issue started, and had to rewrite my code to place all the dates in the same format.
 
