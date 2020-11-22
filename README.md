@@ -18,6 +18,8 @@ The NYPD Complaint Data csv held all crime data for the past year and held about
 
 Here, I used the csv reader code to extract the two rows which I needed and write them to a new file. 
 
+Additionally, in this code, you will notice me slicing the date and putting it back together in a couple ways. I did this because NYC database saves dates in this format '03/04/2020', for example. But later, I discovered that pandas cannot function on a value of it begins with a zero. So, I had to go back through all my files and correct this issue by removing the zeros. While doing so, I also decided to remove the zeros from the day as well, just for completeness. You will see this slicing happen several times through the files since I had to read from the NYC files more than once. 
+
 ```python
 for row in reader:
     iwant = []
@@ -100,7 +102,7 @@ Below, I have created a visual of the data that I have created thusfar in the pr
 
 ## Stage 2
 
-My second goal was to be able to visualize the differences in crime between this 2020 and the corresponding 2019 dates. Below, I have included a visualization of the workflow for this second stage in the project. 
+My second goal was to be able to visualize the differences in crime between 2020 and the corresponding 2019 dates. Below, I have included a visualization of the workflow for this second stage in the project. 
 
 ![Stage 2 Workflow](images/stage2_workflow.PNG)
 
@@ -109,9 +111,33 @@ My second goal was to be able to visualize the differences in crime between this
 
 This csv file includes the 2019 crimes and dates. I iterated through the NYPD_Complaint_Data_Historic file and chose only 2019 dates, because the historic complaint file was so large, it would take considerably longer to use this file if I made mistakes in my code. So, I create a new csv file, Crime_NYC_2019 with only the 2019 dates because it would be more manageable.
 
-### Crime NYC 2019 Covid Date file and the Pandas covid 2019 file
+```python
+for row in reader:
+    if '2019' in row[1][6:]:
+        date = str(row[1])
+        crime = str(row[12])
+       
+        iwant = [date, crime]
+        writer.writerow(iwant)
+ccdata.close()
+```
 
-Here I append all the COVID dates to a list by iterating through the final_covid_crime.csv file. Then, I iterate through the Crime_NYC_2019.csv file, writing the date and the crime to a new file if the date in 2019 corresponds to the 2020 date. 
+### Crime NYC 2019 Covid Date file
+
+Here I append all the COVID dates to a list by iterating through the final_covid_crime.csv file. Here, I took the chance to correct the leap year issue in 2020. Since 2020 is a leap year, 2019 does not possess 2/29 date. Thus, I changed the 2/29/2020 date to 3/1/ date because February 29 would be equivalent to March 1 on a non leap year. I did when makeing a list of dates from the final_covid_crime file. 
+
+```python
+covid_dates = []
+for row in reader:
+    if n > 0:
+        if '02/29' in row[0]:
+            row[0] = '3/1/2020'
+        covid_dates.append(row[0])
+    n += 1
+```
+
+
+Then, I iterate through the Crime_NYC_2019.csv file, writing the date and the crime to a new file, Crime_NYC_2019_Covid_date.csv, which has the dates in 2019 which correspond to the 2020 dates. 
 
 ```python
 for row in reader:
@@ -128,7 +154,35 @@ for row in reader:
     n+=1 
 ```
 
-Lastly, to get each crime category in its own column, I had to use pandas once again. 
+First few lines of Crime_NYC_2019_Covid_date.csv.
+
+ Date | Crime 
+--------- | ------------ 
+3/1/2019 | MISDEMEANOR 
+3/1/2019 | MISDEMEANOR 
+
+
+### NYC 2019 Covid Data and Covid Dates file/Pandas covid 2019 file
+
+Lastly, to get each crime category in its own column, I had to use pandas once again. But an interesting issue arose when I used pandas. For some reason, if I tried to use the pandas module with only the Date column and the Crime column, the module would not work. I _had_ to have the COVID values included as a third column before the pandas module would create the file I wanted.
+
+Thus, from the Crime_NYC_2019_Covid_date file described above, I had to create another file, Crime_NYC_2019_Covid_Date_and_Covid file which 
+
+First few lines of Crime_NYC_2019_Covid_Date_and_Covid.csv.
+
+ Date | Crime | Cases
+--------- | ------------ | ------------ 
+3/1/2019 | MISDEMEANOR | 1
+3/1/2019 | MISDEMEANOR | 1
+
+With this file, I was then able to create the pandas_covid_2019.csv file. Which holds the date and crime information for 2019 for dates which correspond to the 2020 COVID dates. 
+
+First few lines look like this:
+
+Date | FELONY | MISDEMEANOR | VIOLATION 
+--------- | ------------ | ------------- | ------------- 
+3/1/2019 | 422 | 796 | 206
+3/3/2020 | 307 | 593 | 171
 
 
 ### Visual 
