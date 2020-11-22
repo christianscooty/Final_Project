@@ -207,11 +207,11 @@ If we compare these two visualizations side-by-side:
 
 There is a noticeable difference in the crime rates for these two years. Even after the initial surge of COVID, the misdemeanors remain low when compared to 2019 crime rates. 
 
-### Analysis
+### Some Analysis
 
 Besides the files visualized in the workflow. I create an additional file name avg-crimes.py to perform some analysis on the data. 
 
-For example, in the file, I calculated the average crimes performed during the COVID period in 2020 and the corresponding dates in 2019. We see that in 2020 there is a significant difference in crime rates with the average misdemeanors going down by almost 22%.
+For example, in the file, I calculated the average crimes performed during the COVID period in 2020 and the corresponding dates in 2019. We see that in 2020 there is a significant difference in crime rates with the average misdemeanors going down by almost 22% and felonies and violations both dipping by more than 13%.
 
  Year | Average Felony | Average Misdemeanor | Average Violation 
 --------- | ------------ | ------------- | ------------- 
@@ -231,3 +231,19 @@ Tuesday | 40217
 Wednesday | 40085
 Thursday | 38251
 Friday | 36954  
+
+## Challenges During Project
+
+I remember at the beginning of the semester, my professor said, "80% of the time we spend in a dataset is getting the data how we want, and only about 20% of the time spent in a data set actually goes to analyzing it." I never realized how true this was until this project where I would estimate 95% of my time was spent trying to get the data in a format that was usable, consistent, and repeatable. 
+
+My biggest two issues were:
+
+* Trying to find a way to add columns to a csv _without_ making a new csv file everytime
+* Making sure the dates were in a consistent format across all the tiles. 
+
+Unfortunately, I was unsuccessful in finding a solution to the first issue, hence the myriad of csv files included in my project. Near the end, I ended up having to create a workflow (which is displayed above) which allowed me to understand my own process and how these different files connected
+
+The second issue I was able to conquer. This issue grew larger than necessary mostly because I was unaware of it until most of the way through my project when only some dates were being written to my files and others were excluded. I had to dig back one by one through my files until I understood where the issue started, and had to rewrite my code to place all the dates in the same format.
+
+
+ 
