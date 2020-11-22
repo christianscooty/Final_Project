@@ -4,7 +4,7 @@
 
 To complete this project, I needed three different data sources, each from the NYC Open Data site. I needed the COVID-19 cases data, the 2020 Crime data, and the Historic Crime data. In total, I used six separate Python files and ten different csv files. I will discuss the progression in this document. 
 
-Instead of making many requests to the NYPD API as I tried to figure out the coding for getting the data I needed, I decided to download the three files which I needed from the NYC site as CSV files. This would allow me to work with them as much as I needed.
+Instead of making many requests to the NYPD API as I tried to figure out the coding for getting the data I needed, I decided to download the three files which I needed from the NYC site as CSV files. This would allow me to work with them as much as I needed. Additionally, it should be noted that the most current NYPD Crime data only covers until September 30 and the earliest COVID data in the NYC website is on February 29, so these two dates will serve as my boundaries for this project. 
 
 ## Stage 1
 
@@ -80,7 +80,17 @@ for row in csv_reader1:
 
 Next, I wanted the crimes Felony, Misdeamor, and Violations to be in their own columns, and I used the pandas module for this since I found it easier, creating the pandas_covid.csv in the process. However, I came across a problem. When I used pandas module, my Cases column disappeared and I could not figure out how to keep the Cases column when using the pandas module. As a result, I had to add the Cases column a second time, using the same process as before, and creating a new csv file, the final_covid_crime.csv.
 
-Below is an example of the first couple rows of the pandas_covid.csv file:
+Below is an example of the pandas code and the first couple rows of the pandas_covid.csv file:
+
+```python
+import pandas as pd
+coviddata = pd.read_csv('covid_crime.csv','r',delimiter = ',')
+
+reshape = pd.pivot_table(coviddata, index = ['Date'], columns = 'Crimes',values = 'Cases', aggfunc='count')
+
+reshape.to_csv('pandas_covid.csv')
+```
+
 
  Date | FELONY | MISDEMEANOR | VIOLATION 
 --------- | ------------ | ------------- | ------------- 
@@ -166,7 +176,7 @@ First few lines of Crime_NYC_2019_Covid_date.csv.
 
 Lastly, to get each crime category in its own column, I had to use pandas once again. But an interesting issue arose when I used pandas. For some reason, if I tried to use the pandas module with only the Date column and the Crime column, the module would not work. I _had_ to have the COVID values included as a third column before the pandas module would create the file I wanted.
 
-Thus, from the Crime_NYC_2019_Covid_date file described above, I had to create another file, Crime_NYC_2019_Covid_Date_and_Covid file which 
+Thus, from the Crime_NYC_2019_Covid_date file described above, I had to create another file, Crime_NYC_2019_Covid_Date_and_Covid file which contain the date, crime, and Covid case information. 
 
 First few lines of Crime_NYC_2019_Covid_Date_and_Covid.csv.
 
